@@ -14,8 +14,9 @@ def do_stream():
                       salt=os.environ.get('SUBSONIC_SALT'),
                       endpoint=os.environ.get('SUBSONIC_ENDPOINT'),
                       appname=os.environ.get('SUBSONIC_APPNAME'))
-    api.ping()
-    yield 'event: ping\n\n'
+    ping = api.ping()
+    yield 'event: ping\n'
+    yield 'data: {}\n\n'.format(json.dumps(ping))
 
     old_data = dict()
     while True:
