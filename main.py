@@ -13,6 +13,7 @@ def do_stream():
                       token=os.environ.get('SUBSONIC_TOKEN'),
                       salt=os.environ.get('SUBSONIC_SALT'),
                       endpoint=os.environ.get('SUBSONIC_ENDPOINT'))
+    api.ping()
     yield 'event: ping\n\n'
 
     old_data = dict()
