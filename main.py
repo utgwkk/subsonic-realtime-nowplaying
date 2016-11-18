@@ -1,3 +1,4 @@
+import os
 import time
 import json
 from subsonic import SubsonicAPI
