@@ -10,7 +10,8 @@ app = Flask(__name__)
 def do_stream():
     api = SubsonicAPI(user=os.environ.get('SUBSONIC_USER'),
                       token=os.environ.get('SUBSONIC_TOKEN'),
-                      salt=os.environ.get('SUBSONIC_SALT'))
+                      salt=os.environ.get('SUBSONIC_SALT'),
+                      endpoint=os.environ.get('SUBSONIC_ENDPOINT'))
     yield 'event: ping\n\n'
 
     old_data = {'updated_at': 0}
