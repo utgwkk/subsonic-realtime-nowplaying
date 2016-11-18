@@ -12,7 +12,8 @@ def do_stream():
     api = SubsonicAPI(user=os.environ.get('SUBSONIC_USER'),
                       token=os.environ.get('SUBSONIC_TOKEN'),
                       salt=os.environ.get('SUBSONIC_SALT'),
-                      endpoint=os.environ.get('SUBSONIC_ENDPOINT'))
+                      endpoint=os.environ.get('SUBSONIC_ENDPOINT'),
+                      appname=os.environ.get('SUBSONIC_APPNAME'))
     api.ping()
     yield 'event: ping\n\n'
 
