@@ -10,7 +10,7 @@ class SubsonicAPI:
 
     def _build_url(self, mode):
         return '{}/rest/{}.view?u={}&t={}&s={}&f={}'.format(
-            endpoint, user, token, salt, _format)
+            self.endpoint, self.user, self.token, self.salt, self.format)
 
     def getNowPlaying(self):
         r = requests.get(self._build_url('getNowPlaying'))
