@@ -17,3 +17,9 @@ class SubsonicAPI:
         r.raise_for_status()
 
         # TODO: implement
+
+    def ping(self):
+        r = requests.get(_build_url('ping'))
+        r.raise_for_status()
+
+        return r.json()
