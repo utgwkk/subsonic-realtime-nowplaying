@@ -18,9 +18,9 @@ def do_stream():
     yield 'event: ping\n'
     yield 'data: {}\n\n'.format(json.dumps(ping))
 
-    old_data = dict()
+    old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
     while True:
-        new_data = api.getNowPlaying()
+        new_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
         if new_data != old_data:
             old_data = new_data
             yield 'data: {}\n\n'.format(json.dumps(new_data))
