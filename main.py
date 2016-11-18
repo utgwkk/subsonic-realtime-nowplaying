@@ -14,10 +14,10 @@ def do_stream():
                       endpoint=os.environ.get('SUBSONIC_ENDPOINT'))
     yield 'event: ping\n\n'
 
-    old_data = {'updated_at': 0}
+    old_data = dict()
     while True:
         new_data = api.getNowPlaying()
-        if new_data['updated_at'] != old_data['updated_at']:
+        if new_data != old_data:
             old_data = new_data
             yield 'data: {}\n\n'.format(json.dumps(new_data))
         time.sleep(1)
