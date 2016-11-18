@@ -13,13 +13,13 @@ class SubsonicAPI:
             endpoint, user, token, salt, _format)
 
     def getNowPlaying(self):
-        r = requests.get(_build_url('getNowPlaying'))
+        r = requests.get(self._build_url('getNowPlaying'))
         r.raise_for_status()
 
         # TODO: implement
 
     def ping(self):
-        r = requests.get(_build_url('ping'))
+        r = requests.get(self._build_url('ping'))
         r.raise_for_status()
 
         return r.json()
