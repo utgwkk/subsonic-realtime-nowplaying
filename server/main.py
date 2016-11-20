@@ -24,7 +24,7 @@ def do_stream():
         if new_data['id'] != old_data['id']:
             old_data = new_data
             yield 'data: {}\n\n'.format(json.dumps(new_data))
-        time.sleep(60)
+        time.sleep(1)
 
 @app.route('/stream')
 def streaming():
