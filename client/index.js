@@ -15,22 +15,29 @@ slack.webhook({
     console.log(resp)
 })
 
+let oldData = {}
+
 const receiveMessage = (evt) => {
     // console.log(evt)
     const data = JSON.parse(evt.data)
     const title = data.title;
     const artist = data.artist;
     const message = `${title} by ${artist}`
-    console.log(message)
+    if (oldData.title !== title) {
+        console.log(message)
+            oldData = {
+                title, artist
+            }
 
-    slack.webhook({
-        channel: "#utgw-kanshi",
-        username: "#nowplaying",
-        icon_emoji: ":headphones:",
-        text: ":musical_note: " + message
-    }, (err, resp) => {
-        console.log(resp)
-    })
+        slack.webhook({
+            channel: "#utgw-kanshi",
+            username: "#nowplaying",
+            icon_emoji: ":headphones:",
+            text: ":musical_note: " + message
+        }, (err, resp) => {
+            console.log(resp)
+        })
+    }
 }
 
 evtSource.addEventListener("ping", receiveMessage)
