@@ -25,6 +25,7 @@ def do_stream():
             old_data = new_data
             yield 'data: {}\n\n'.format(json.dumps(new_data))
         time.sleep(1)
+    yield 'event: close\n\n'
 
 @app.route('/stream')
 def streaming():
