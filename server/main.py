@@ -2,7 +2,7 @@ import os
 import time
 import json
 from subsonic import SubsonicAPI
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 app = Flask(__name__)
@@ -26,6 +26,11 @@ def do_stream():
             yield 'data: {}\n\n'.format(json.dumps(new_data))
         time.sleep(1)
     yield 'event: close\n\n'
+
+@app.route('/')
+def index():
+    data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+    return jsonify(ResultSet=data)
 
 @app.route('/stream')
 def streaming():
