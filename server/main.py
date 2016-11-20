@@ -16,7 +16,6 @@ def do_stream():
                       appname=os.environ.get('SUBSONIC_APPNAME'))
     ping = api.ping()
     yield 'event: ping\n'
-    yield 'data: {}\n\n'.format(json.dumps(ping))
 
     old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
     yield 'data: {}\n\n'.format(json.dumps(old_data))
