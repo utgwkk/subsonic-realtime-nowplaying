@@ -19,6 +19,7 @@ def do_stream():
     yield 'data: {}\n\n'.format(json.dumps(ping))
 
     old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+    yield 'data: {}\n\n'.format(json.dumps(old_data))
     while True:
         new_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
         if new_data['id'] != old_data['id']:
