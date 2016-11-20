@@ -6,14 +6,14 @@ from flask import Flask, Response
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 app = Flask(__name__)
+api = SubsonicAPI(user=os.environ.get('SUBSONIC_USER'),
+                  token=os.environ.get('SUBSONIC_TOKEN'),
+                  salt=os.environ.get('SUBSONIC_SALT'),
+                  endpoint=os.environ.get('SUBSONIC_ENDPOINT'),
+                  appname=os.environ.get('SUBSONIC_APPNAME'))
 
 
 def do_stream():
-    api = SubsonicAPI(user=os.environ.get('SUBSONIC_USER'),
-                      token=os.environ.get('SUBSONIC_TOKEN'),
-                      salt=os.environ.get('SUBSONIC_SALT'),
-                      endpoint=os.environ.get('SUBSONIC_ENDPOINT'),
-                      appname=os.environ.get('SUBSONIC_APPNAME'))
     ping = api.ping()
     yield 'event: ping\n'
 
