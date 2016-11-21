@@ -40,8 +40,12 @@ def do_stream():
 
 @app.route('/')
 def index():
-    data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-    return jsonify(ResultSet=data)
+    try:
+        data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+    except KeyError:
+        return jsonify(ResultSet={'error': 'no data'})
+    else:
+        return jsonify(ResultSet=data)
 
 @app.route('/stream')
 def streaming():
