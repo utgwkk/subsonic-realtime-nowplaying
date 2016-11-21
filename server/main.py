@@ -17,15 +17,26 @@ def do_stream():
     ping = api.ping()
     yield 'event: ping\n'
 
-    old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-    yield 'data: {}\n\n'.format(json.dumps(old_data))
+    try:
+        old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+    except KeyError:
+        yield ': no new data\n\n'
+        old_data = {'id': -1000}
+    else:
+        yield 'data: {}\n\n'.format(json.dumps(old_data))
+
     while True:
-        new_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-        if new_data['id'] != old_data['id']:
-            old_data = new_data
-            yield 'data: {}\n\n'.format(json.dumps(new_data))
-        time.sleep(1)
-    yield 'event: close\n\n'
+        try:
+            new_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+        except KeyError:
+            yield ': no new data\n\n'
+        else:
+            if new_data.get('id') != old_data['id']:
+                old_data = new_data
+                yield 'data: {}\n\n'.format(json.dumps(new_data))
+            else:
+                yield ': no new data\n\n'
+        time.sleep(3)
 
 @app.route('/')
 def index():
