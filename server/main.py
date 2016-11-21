@@ -43,9 +43,9 @@ def index():
     try:
         data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
     except KeyError:
-        return jsonify(ResultSet={'error': 'no data'})
+        return jsonify({'error': 'no data'})
     else:
-        return jsonify(ResultSet=data)
+        return jsonify(data)
 
 @app.route('/stream')
 def streaming():
