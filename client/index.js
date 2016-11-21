@@ -1,9 +1,10 @@
 const EventSource = require("eventsource")
 const Slack = require("slack-node")
+require('dotenv').config();
 
 const evtSource = new EventSource("https://utgw.net/nowplaying/stream")
 
-const webhookURL = "your webhook url"
+const webhookURL = process.env.WEBHOOK_URL
 const slack = new Slack()
 slack.setWebhook(webhookURL)
 slack.webhook({
