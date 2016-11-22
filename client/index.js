@@ -7,16 +7,18 @@ const evtSource = new EventSource("https://utgw.net/nowplaying/stream")
 const webhookURL = process.env.WEBHOOK_URL
 const slack = new Slack()
 slack.setWebhook(webhookURL)
-slack.webhook({
-    channel: "#utgw-kanshi",
-    username: "#nowplaying",
-    icon_emoji: ":headphones:",
-    text: "started."
-}, (err, resp) => {
-    console.log(resp)
-})
-
 let oldData = {}
+
+const pingMessage = (evt) => {
+    slack.webhook({
+        channel: "#utgw-kanshi",
+        username: "#nowplaying",
+        icon_emoji: ":headphones:",
+        text: "started."
+    }, (err, resp) => {
+        console.log(resp)
+    })
+}
 
 const receiveMessage = (evt) => {
     // console.log(evt)
@@ -41,5 +43,5 @@ const receiveMessage = (evt) => {
     }
 }
 
-evtSource.addEventListener("ping", receiveMessage)
+evtSource.addEventListener("ping", pingMessage)
 evtSource.addEventListener("message", receiveMessage)
