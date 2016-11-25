@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/utgwkk/subsonic-realtime-nowplaying/issues"
   },
-  "homepage": "https://github.com/utgwkk/subsonic-realtime-nowplaying#readme"
+  "homepage": "https://github.com/utgwkk/subsonic-realtime-nowplaying#readme",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "eventsource": "^0.2.1",
+    "slack-node": "^0.1.8"
+  }
 }
