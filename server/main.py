@@ -13,36 +13,39 @@ api = SubsonicAPI(user=os.environ.get('SUBSONIC_USER'),
                   appname=os.environ.get('SUBSONIC_APPNAME'))
 
 
+def getNowPlaying(api):
+    try:
+        data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
+    except Exception as e:
+        return None
+    else:
+        return data
+
+
 def do_stream():
     ping = api.ping()
     yield 'event: ping\n'
 
-    try:
-        old_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-    except KeyError:
+    old_data = getNowPlaying(api)
+    if old_data is None:
         yield ': no new data\n\n'
         old_data = {'id': -1000}
     else:
         yield 'data: {}\n\n'.format(json.dumps(old_data))
 
     while True:
-        try:
-            new_data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-        except KeyError:
-            yield ': no new data\n\n'
+        new_data = getNowPlaying(api)
+        if new_data is not None and new_data.get('id') != old_data['id']:
+            old_data = new_data
+            yield 'data: {}\n\n'.format(json.dumps(new_data))
         else:
-            if new_data.get('id') != old_data['id']:
-                old_data = new_data
-                yield 'data: {}\n\n'.format(json.dumps(new_data))
-            else:
-                yield ': no new data\n\n'
-        time.sleep(3)
+            yield ': no new data\n\n'
+        time.sleep(5)
 
 @app.route('/')
 def index():
-    try:
-        data = api.getNowPlaying()['subsonic-response']['nowPlaying']['entry'][0]
-    except KeyError:
+    data = getNowPlaying(api)
+    if data is None:
         return jsonify({'error': 'no data'})
     else:
         return jsonify(data)
@@ -53,4 +56,4 @@ def streaming():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), threaded=True)
