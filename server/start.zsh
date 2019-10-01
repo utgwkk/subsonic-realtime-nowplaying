@@ -2,4 +2,4 @@
 
 echo "start nowplaying"
 
-venv/bin/python /home/utgw/subsonic-nowplaying-stream/server/main.py
+pipenv run python /home/utgw/subsonic-nowplaying-stream/server/main.py
